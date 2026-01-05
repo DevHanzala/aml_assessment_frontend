@@ -47,34 +47,33 @@ startExam: async (email, accessCode) => {
 },
 
 
-  submitExam: async () => {
+ submitExam: async () => {
   const { answers, sessionId, candidateName } = get();
+
   if (!sessionId || !candidateName.trim()) {
     set({ error: "Name and session required" });
     return { success: false };
   }
+
   try {
     set({ loading: true, error: null });
 
     const res = await api.post(
       "/api/exam/submit",
-      { answers, name: candidateName, sessionId },
-      { responseType: "blob" } // Always blob
+      { answers, name: candidateName, sessionId }
+      // ❌ removed responseType: "blob"
     );
 
-    // Check if response is JSON (failed exam) or PDF (passed)
-    let resultData = null;
     const contentType = res.headers["content-type"];
-    if (contentType.includes("application/json")) {
-      const text = await res.data.text();
-      resultData = JSON.parse(text);
-    }
 
+    // ✅ Passed → PDF
     if (contentType.includes("application/pdf")) {
-      const url = window.URL.createObjectURL(res.data);
+      const blob = new Blob([res.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `AML_CFT_Certificate_${candidateName}.pdf`);
+      link.download = `AML_CFT_Certificate_${candidateName}.pdf`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -83,14 +82,18 @@ startExam: async (email, accessCode) => {
         result: { percentage: 100, passed: true },
         loading: false,
       });
-    } else if (resultData) {
-      set({
-        result: resultData,
-        loading: false,
-      });
+
+      return { success: true };
     }
 
+    // ✅ Failed → JSON
+    set({
+      result: res.data,
+      loading: false,
+    });
+
     return { success: true };
+
   } catch (err) {
     console.error("Submit error:", err.response || err);
     const message = err.response?.data?.message || "Submit failed";
@@ -98,6 +101,7 @@ startExam: async (email, accessCode) => {
     return { success: false, message };
   }
 },
+
 
 
   clearExam: () => {
