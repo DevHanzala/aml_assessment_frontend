@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "./authStore";
 
 const api = axios.create({
-baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000",
+baseURL: import.meta.env.VITE_BACKEND_URL || "https://amlassesment.techmiresolutions.com",
 });
 
 // Auto-add Bearer token to every request
