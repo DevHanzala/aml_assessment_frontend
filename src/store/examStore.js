@@ -47,7 +47,7 @@ startExam: async (email, accessCode) => {
 },
 
 
- submitExam: async () => {
+submitExam: async () => {
   const { answers, sessionId, candidateName } = get();
 
   if (!sessionId || !candidateName.trim()) {
@@ -60,23 +60,27 @@ startExam: async (email, accessCode) => {
 
     const res = await api.post(
       "/api/exam/submit",
-      { answers, name: candidateName, sessionId }
-      // ❌ removed responseType: "blob"
+      { answers, name: candidateName, sessionId },
+      {
+        responseType: "blob", // ✅ CRITICAL FIX
+      }
     );
 
     const contentType = res.headers["content-type"];
 
-    // ✅ Passed → PDF
-    if (contentType.includes("application/pdf")) {
+    // ✅ PASSED → PDF
+    if (contentType && contentType.includes("application/pdf")) {
       const blob = new Blob([res.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = `AML_CFT_Certificate_${candidateName}.pdf`;
+      link.download = `AML_CFT_Certificate_${candidateName.replace(/[^a-z0-9]/gi, "_")}.pdf`;
       document.body.appendChild(link);
       link.click();
       link.remove();
+
+      window.URL.revokeObjectURL(url);
 
       set({
         result: { percentage: 100, passed: true },
@@ -86,16 +90,18 @@ startExam: async (email, accessCode) => {
       return { success: true };
     }
 
-    // ✅ Failed → JSON
-    set({
-      result: res.data,
-      loading: false,
-    });
+    // ❌ FAILED → JSON
+    const reader = new FileReader();
+    reader.onload = () => {
+      const json = JSON.parse(reader.result);
+      set({ result: json, loading: false });
+    };
+    reader.readAsText(res.data);
 
     return { success: true };
 
   } catch (err) {
-    console.error("Submit error:", err.response || err);
+    console.error("Submit error:", err);
     const message = err.response?.data?.message || "Submit failed";
     set({ error: message, loading: false });
     return { success: false, message };
