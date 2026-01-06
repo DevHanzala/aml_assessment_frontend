@@ -25,7 +25,7 @@ const Home = () => {
   
   <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed relative z-10">
     This platform is for the <strong className="text-indigo-600">mandatory AML/CFT certification assessment</strong> 
-    Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.
+      Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.
   </p>
 </div>
 
