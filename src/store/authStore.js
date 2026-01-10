@@ -52,10 +52,52 @@ export const useAuthStore = create(
         }
       },
 
+fetchEnrollments: async () => {
+        try {
+          set({ loading: true, error: null });
+          const res = await api.get("/api/admin/enrollments");
+          set({ loading: false });
+          return { success: true, data: res.data };
+        } catch (err) {
+          const message = err.response?.data?.message || "Failed to fetch enrollments";
+          set({ error: message, loading: false });
+          return { success: false, message };
+        }
+      },
+
+unenrollStudent: async (id, email) => {
+  try {
+    set({ loading: true, error: null });
+    await api.post("/api/admin/unenroll", { id, email });
+    set({ loading: false });
+    return { success: true };
+  } catch (err) {
+    const message = err.response?.data?.message || "Failed to unenroll";
+    set({ error: message, loading: false });
+    return { success: false, message };
+  }
+},
+
+      getCandidateResult: async (email) => {
+        try {
+          set({ loading: true, error: null });
+          const res = await api.post("/api/admin/result", { email });
+          set({ loading: false });
+          return { success: true, data: res.data };
+        } catch (err) {
+          const message = err.response?.data?.message || "Failed to get result";
+          set({ error: message, loading: false });
+          return { success: false, message };
+        }
+      },
+
+
       logout: () => {
         set({ token: null, role: null });
         localStorage.removeItem("auth-storage");
       },
+
+      clearError: () => set({ error: null }),
     }),
     {
       name: "auth-storage",

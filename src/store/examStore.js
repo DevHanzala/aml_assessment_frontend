@@ -18,20 +18,21 @@ export const useExamStore = create((set, get) => ({
   },
 
   setCandidateName: (name) => set({ candidateName: name }),
-
+  
 startExam: async (email, accessCode) => {
   try {
     set({ loading: true, error: null });
 
     const res = await api.post("/api/exam/start", { email, accessCode });
 
-    // ✅ Save student auth
+    // Save student auth
     useAuthStore.getState().setAuth(res.data.token, "candidate");
 
     set({
       questions: res.data.questions,
       sessionId: res.data.sessionId,
       answers: {},
+      candidateName: "",
       result: null,
       loading: false,
     });
@@ -109,7 +110,6 @@ submitExam: async () => {
 },
 
 
-
   clearExam: () => {
     set({
       questions: [],
@@ -120,4 +120,6 @@ submitExam: async () => {
       error: null,
     });
   },
+
+  clearError: () => set({ error: null }),
 }));

@@ -24,8 +24,8 @@ const Home = () => {
   <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
   
   <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed relative z-10">
-    This platform is for the <strong className="text-indigo-600">mandatory AML/CFT certification assessment</strong> 
-      Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.
+    This platform is for the <strong className="text-indigo-600">mandatory AML/CFT certification assessment </strong> 
+     <p>Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.</p> 
   </p>
 </div>
 

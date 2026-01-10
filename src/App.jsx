@@ -27,7 +27,8 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl">
+<main className="flex-1 px-4 py-8 w-full">
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/admin/login" element={<AdminLogin />} />

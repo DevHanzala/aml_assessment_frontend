@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useExamStore } from "../store/examStore";
 import Loading from "../components/Loading.jsx";
@@ -7,8 +7,23 @@ import ErrorMessage from "../components/ErrorMessage.jsx";
 const ExamStart = () => {
   const [email, setEmail] = useState("");
   const [accessCode, setAccessCode] = useState("");
-  const { startExam, loading, error } = useExamStore();
+  const { startExam, loading, error, clearError } = useExamStore();
   const navigate = useNavigate();
+
+
+useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setEmail("");
+        setAccessCode("");
+        clearError?.(); // safe call if clearError exists
+        navigate("/");
+      }, 5000);
+
+      return () => clearTimeout(timer); // cleanup on unmount
+    }
+  }, [error, navigate, clearError]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

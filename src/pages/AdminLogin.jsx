@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import Loading from "../components/Loading.jsx";
@@ -7,8 +7,20 @@ import ErrorMessage from "../components/ErrorMessage.jsx";
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loginAdmin, loading, error } = useAuthStore();
+  const { loginAdmin, loading, error, clearError } = useAuthStore();
   const navigate = useNavigate();
+
+useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setEmail("");
+        setPassword("");
+        clearError?.(); // safe call
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error, clearError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
