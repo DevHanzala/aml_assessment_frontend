@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full text-center">
-        
+
         {/* Hero Section */}
         <div className="animate-fadeIn">
           {/* Title */}
@@ -20,14 +20,14 @@ const Home = () => {
 
           {/* Description Card */}
           <div className="animate-slideUp bg-white/80 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-xl border border-white/20 mb-8 sm:mb-10 md:mb-12 relative overflow-hidden" style={{ animationDelay: "0.2s" }}>
-  <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-  <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-  
-  <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed relative z-10">
-    This platform is for the <strong className="text-indigo-600">mandatory AML/CFT certification assessment </strong> 
-     <p>Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.</p> 
-  </p>
-</div>
+            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed relative z-10">
+              This platform is for the <strong className="text-indigo-600">mandatory AML/CFT certification assessment </strong>
+              <p>Achieve <strong className="text-green-600 font-semibold">80% or higher</strong> to earn your certificate.</p>
+            </p>
+          </div>
 
           {/* Action Buttons */}
           <div className="space-y-4 sm:space-y-6 animate-slideUp" style={{ animationDelay: "0.4s" }}>

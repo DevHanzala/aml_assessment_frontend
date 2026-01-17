@@ -13,6 +13,7 @@ import ResultPage from './pages/ResultPage.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 
+// Protected Route Component
 function ProtectedRoute({ children, requiredRole }) {
   const { token, role } = useAuthStore()
 

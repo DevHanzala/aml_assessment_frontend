@@ -51,8 +51,8 @@ export const useAuthStore = create(
           return { success: false, message };
         }
       },
-
-fetchEnrollments: async () => {
+      // ✅ FETCH ENROLLMENTS (unchanged)
+      fetchEnrollments: async () => {
         try {
           set({ loading: true, error: null });
           const res = await api.get("/api/admin/enrollments");
@@ -65,19 +65,21 @@ fetchEnrollments: async () => {
         }
       },
 
-unenrollStudent: async (id, email) => {
-  try {
-    set({ loading: true, error: null });
-    await api.post("/api/admin/unenroll", { id, email });
-    set({ loading: false });
-    return { success: true };
-  } catch (err) {
-    const message = err.response?.data?.message || "Failed to unenroll";
-    set({ error: message, loading: false });
-    return { success: false, message };
-  }
-},
+      // ✅ ADMIN UNENROLL (unchanged)
+      unenrollStudent: async (id, email) => {
+        try {
+          set({ loading: true, error: null });
+          await api.post("/api/admin/unenroll", { id, email });
+          set({ loading: false });
+          return { success: true };
+        } catch (err) {
+          const message = err.response?.data?.message || "Failed to unenroll";
+          set({ error: message, loading: false });
+          return { success: false, message };
+        }
+      },
 
+      // ✅ GET CANDIDATE RESULT (unchanged)
       getCandidateResult: async (email) => {
         try {
           set({ loading: true, error: null });
@@ -91,7 +93,7 @@ unenrollStudent: async (id, email) => {
         }
       },
 
-
+      // ✅ LOGOUT (unchanged)
       logout: () => {
         set({ token: null, role: null });
         localStorage.removeItem("auth-storage");
